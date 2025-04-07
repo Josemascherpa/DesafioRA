@@ -9,8 +9,8 @@ interface InfoRowProps {
 export const InfoRowCard = ( { question, value, }: InfoRowProps ) => {
   return (
     <View style={ styles.infoContainer }>
-      <Text style={ { fontSize: 15, width: 150, textAlign: "left",fontWeight:"bold" } }>{ question }</Text>
-      <Text style={ { marginLeft: 10, fontSize: 15, flex:0.95, textAlign: "left"} }>{ value }</Text>
+      <Text style={ styles.questionText }>{ question }</Text>
+      <Text style={ styles.valueText }>{ value }</Text>
     </View>
   );
 };
@@ -20,7 +20,18 @@ const styles = StyleSheet.create( {
     flexDirection: "row",
     justifyContent: "center",
     width: "100%",
-    alignItems: "center",    
+    alignItems: "center",
   },
-
+  questionText: {
+    fontSize: 15,
+    width: 150,
+    textAlign: "left",
+    fontWeight: "bold"
+  },
+  valueText: {
+    marginLeft: 10,
+    fontSize: 13,
+    flex: 0.95,
+    textAlign: "left"
+  }
 } );
