@@ -6,6 +6,7 @@ import { useUserMood } from '../hooks/useUserMood';
 import { MoodModal } from '../components/MoodModal';
 import { CardMood } from '../components/CardMood';
 import { useEffect } from 'react';
+import { LoadingMoods } from '../components/LoadingMoods';
 
 export const MainScreen = () => {
 
