@@ -17,7 +17,7 @@ export const Pickers = ( { titlePicker,onValueChange,value=0}: PickersProps ) =>
       onValueChange={onValueChange}      
       style={ { borderWidth:1,borderColor:"red", width: "50%", height: "auto", alignSelf: "center" } }
     >
-      <Picker.Item label="del 1 al 10" value={ null } />
+      <Picker.Item label="del 1 al 10" value={ 0 } />
       { Array.from( { length: 10 }, ( _, i ) => i + 1 ).map( ( num ) => (
         <Picker.Item key={ num } label={ num.toString() } value={ num } />
       ) ) }
