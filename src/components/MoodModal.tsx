@@ -60,7 +60,7 @@ export const MoodModal = () => {
             value={ note }
             onChangeText={ setNote }
             style={ style.textInput }
-            maxLength={ 100 }
+            maxLength={ 50 }
             placeholder="agrega una nota"
           />
           <Pressable
