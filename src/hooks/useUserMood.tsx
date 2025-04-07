@@ -3,6 +3,7 @@ import { MoodUser } from '../interfaces/moodUser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveMoodsToStorage } from '../utils/storage';
 import { getCurrentDate } from '../utils/getCurrentDate';
+import { Alert } from 'react-native';
 
 type UserMoodState = {
   moods: MoodUser[];
@@ -16,6 +17,7 @@ type UserMoodState = {
   moodToEdit: MoodUser | null;
   setMoodToEdit: (mood:MoodUser|null) => void;//solo para limpiar el moodtoedit
   hasMoodToday:()=>boolean;
+  
 };
 
 export const useUserMood = create<UserMoodState>( ( set, get ) => ( {
@@ -24,9 +26,19 @@ export const useUserMood = create<UserMoodState>( ( set, get ) => ( {
   isLoadingMoods: true,
   moodToEdit:null,
 
-  hasMoodToday:()=>{
+  
+  hasMoodToday: () => {
     const today = getCurrentDate();
-    return get().moods.some(mood => mood.date === today);
+    const found = get().moods.some(mood => mood.date === today);  
+    if (found) {
+      Alert.alert(
+        "Ya registraste tu estado de animo hoy",
+        "Podes editarlo si queres cambiarlo.",
+        [{ text: "OK" }]
+      );
+    }
+  
+    return found;
   },
 
   toggleModal: () => set( ( state ) => ( { isModalVisible: !state.isModalVisible } ) ),
