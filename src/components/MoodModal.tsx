@@ -7,27 +7,27 @@ import { getCurrentDate } from '../utils/getCurrentDate';
 
 export const MoodModal = () => {
   const { isModalVisible, toggleModal, addMood, moods, moodToEdit, updateMood, setMoodToEdit } = useUserMood();
-  const [ mood, setMood ] = useState<number>( 0 );
-  const [ sleepQuality, setSleepQuality ] = useState<number>( 0 );
+  const [ mood, setMood ] = useState<string>( "" );
+  const [ sleepQuality, setSleepQuality ] = useState<string>( "" );
   const [ note, setNote ] = useState<string>( "" );
 
   useEffect( () => {
-    if ( moodToEdit ) {      
+    if ( moodToEdit ) {//abierto para editar
       setMood( moodToEdit.mood );
       setSleepQuality( moodToEdit.sleepQuality );
       setNote( moodToEdit.note );
     }
     else if ( !isModalVisible ) {      
-      setMood( 0 );
-      setSleepQuality( 0 );
+      setMood( "" );
+      setSleepQuality( "" );
       setNote( "" );
     }
   }, [ isModalVisible ] );
 
-  const handleSubmit = () => {
+  const handleSubmit = () => {//metodo onpress 
     if ( moodToEdit ) {
-      updateMood( moodToEdit.id, { mood, sleepQuality, note } );
-    } else {
+      updateMood( moodToEdit.id, { mood, sleepQuality, note } );//edito el mood
+    } else {//envio el mood nuevo
       const newId = moods.length > 0 ? moods[ moods.length - 1 ].id + 1 : 1;
       const moodUser = {
         id: newId,
@@ -66,10 +66,10 @@ export const MoodModal = () => {
           <Pressable
             style={ [
               style.buttonSend,
-              ( mood === 0 || sleepQuality === 0 ) && { backgroundColor: 'gray' },//extender el stlye, para habilitar o deshabilitar
+              ( mood === "" || sleepQuality === "" ) && { backgroundColor: 'gray' },//extender el stlye, para habilitar o deshabilitar
             ] }
             onPress={ handleSubmit }
-            disabled={ mood === 0 || sleepQuality === 0 }//lo mismo, deshabilitar el boton dependiendo los pickers
+            disabled={ mood === "" || sleepQuality === "" }//lo mismo, deshabilitar el boton dependiendo los pickers
           >
             <Text style={ style.textSend }>Enviar</Text>
           </Pressable>
@@ -104,8 +104,8 @@ const style = StyleSheet.create( {
   textInput: {
     borderRadius: 8,
     marginTop: 20,
-    borderWidth: 1,
-    borderColor: "red",
+    borderWidth: 1.5,
+    borderColor: "black",
     width: "100%",
     height: 100,
     alignSelf: "center",
@@ -116,7 +116,7 @@ const style = StyleSheet.create( {
     justifyContent: "center",
     alignSelf: "center",
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundColor: "black",
     width: "50%",
     height: 40,
     borderRadius: 10,
