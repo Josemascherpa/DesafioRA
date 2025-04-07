@@ -2,13 +2,22 @@
 
 import { Text, StyleSheet, View, StatusBar, FlatList, Pressable } from 'react-native';
 
-import { useUserMood } from '../hooks/useMoodStore';
+import { useUserMood } from '../hooks/useUserMood';
 import { MoodModal } from '../components/MoodModal';
 import { CardMood } from '../components/CardMood';
+import { useEffect } from 'react';
 
 export const MainScreen = () => {
 
-  const { moods, toggleModal } = useUserMood();
+  const { moods, toggleModal, loadMoods, isLoadingMoods,hasMoodToday} = useUserMood();
+
+  useEffect( () => {
+    const fetchMoods = async () => {
+      await loadMoods();
+    };
+    fetchMoods();
+  }, [] );
+
   return (
 
     <View style={ style.container }>
@@ -17,17 +26,27 @@ export const MainScreen = () => {
         <Text style={ { fontSize: 50 } } >BIENESAPP</Text>
       </View>
       <View style={ style.containerFlatlist }>
-        <FlatList
-          keyExtractor={ ( item ) => item.id.toString() }
-          data={ moods }
-          renderItem={ ( { item } ) =>
-            <CardMood mood={ item.mood } sleepQuality={ item.sleepQuality } note={ item.note } date={ item.date } />
-          }
-          style={ style.flatlist }
-        />
+        { isLoadingMoods ? (
+          <LoadingMoods/>
+        ) : (
+          <FlatList
+            keyExtractor={ ( item ) => item.id.toString() }
+            data={ moods }
+            renderItem={ ( { item } ) =>
+              <CardMood
+                id={ item.id }
+                mood={ item.mood }
+                sleepQuality={ item.sleepQuality }
+                note={ item.note }
+                date={ item.date }
+              />
+            }
+            style={ style.flatlist }
+          />
+        ) }
       </View>
       <View style={ style.containerButton }>
-        <Pressable onPress={ () => toggleModal() } style={ style.button }>
+        <Pressable disabled={isLoadingMoods || hasMoodToday()} onPress={ () => toggleModal() } style={ style.button }>
           <Text> Agregar Nuevo Mood</Text>
         </Pressable>
       </View>
