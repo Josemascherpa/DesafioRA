@@ -15,21 +15,39 @@ export const CardMood = ( { id, mood, sleepQuality, note, date }: cardMoodProps 
   const { removeMood, setMoodToEdit, toggleModal } = useUserMood();
   const showNote = note.trim() ? note : "no se escribio una nota";
   return (
-      <Pressable onPress={ () => removeMood( id ) }>
-        <Text>X</Text>
-      </Pressable>
-      <Pressable onPress={ () => {
-        setMoodToEdit( { id, mood, sleepQuality, note, date } );
-        toggleModal();
-      } }>
-        <Text>M</Text>
-      </Pressable>
     <View style={ style.cardContainer }>
 
       <InfoRowCard question="Como te sientes hoy?" value={ mood } />
       <InfoRowCard question="Como dormiste hoy?" value={ sleepQuality } />
       <InfoRowCard question="Nota:" value={ showNote } />
       <InfoRowCard question="Creado:" value={ date } />
+
+      <View style={ { flexDirection: "row", alignItems: "center",marginTop:10 } }>
+        <Pressable onPress={ () => removeMood( id ) }>
+          <AntDesign name="delete" size={ 24 } color="black" />
+        </Pressable>
+        <Pressable onPress={ () => {
+          setMoodToEdit( { id, mood, sleepQuality, note, date } );
+          toggleModal();
+        } }>
+          <Feather name="edit" size={ 24 } color="black" />
+        </Pressable>
+      </View>
+
     </View>
   );
 };
+
+const style = StyleSheet.create( {
+  cardContainer: {
+    marginTop: 8,
+    marginBottom: 10,
+    borderRadius: 10,
+    width: "100%",
+    height: 150,
+    borderWidth: 2,    
+    alignItems: "center",
+    justifyContent: "center",
+
+  },
+} );
