@@ -1,7 +1,4 @@
-
-
 import { Text, StyleSheet, View, StatusBar, FlatList, Pressable } from 'react-native';
-
 import { useUserMood } from '../hooks/useUserMood';
 import { MoodModal } from '../components/MoodModal';
 import { CardMood } from '../components/CardMood';
@@ -24,7 +21,7 @@ export const MainScreen = () => {
     <View style={ style.container }>
       <MoodModal />
       <View style={ style.containerTitle }>
-        <Text style={ { fontSize: 50 } } >BIENESAPP</Text>
+        <Text style={ style.titleText } >BIENESAPP</Text>
       </View>
       <View style={ style.containerFlatlist }>
         { isLoadingMoods ? (
@@ -47,10 +44,13 @@ export const MainScreen = () => {
         ) }
       </View>
       <View style={ style.containerButton }>
-        <Pressable disabled={ isLoadingMoods } onPress={ () => {
-          if ( hasMoodToday() ) { return; }
-          toggleModal();
-        } } style={ style.button }>
+        <Pressable
+          disabled={ isLoadingMoods }
+          onPress={ () => {
+            if ( hasMoodToday() ) { return; }
+            toggleModal();
+          } }
+          style={ style.button }>
           <Text style={ { fontWeight: "bold" } }> Agregar Nuevo Mood</Text>
         </Pressable>
       </View>
@@ -71,6 +71,9 @@ const style = StyleSheet.create( {
     flex: 0.15,
     alignItems: "center",
     justifyContent: "center"
+  },
+  titleText: {
+    fontSize: 50
   },
   containerFlatlist: {
     flex: 0.75,
