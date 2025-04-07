@@ -1,6 +1,7 @@
 
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { useUserMood } from '../hooks/useUserMood';
+import { InfoRowCard } from './InfoRowCard';
 
 interface cardMoodProps {
   id: number;
@@ -14,11 +15,6 @@ export const CardMood = ( { id, mood, sleepQuality, note, date }: cardMoodProps 
   const { removeMood, setMoodToEdit, toggleModal } = useUserMood();
   const showNote = note.trim() ? note : "no se escribio una nota";
   return (
-    <View style={ { marginTop: 8, marginBottom: 10, borderRadius: 10, width: "100%", height: 130, borderWidth: 1, backgroundColor: "red", alignItems: "center", justifyContent: "center" } }>
-      <Text style={ { fontSize: 15, width: "100%", textAlign: "center" } }>{ mood }</Text>
-      <Text>{ sleepQuality }</Text>
-      <Text>{ showNote }</Text>
-      <Text>{ date }</Text>
       <Pressable onPress={ () => removeMood( id ) }>
         <Text>X</Text>
       </Pressable>
@@ -28,6 +24,12 @@ export const CardMood = ( { id, mood, sleepQuality, note, date }: cardMoodProps 
       } }>
         <Text>M</Text>
       </Pressable>
+    <View style={ style.cardContainer }>
+
+      <InfoRowCard question="Como te sientes hoy?" value={ mood } />
+      <InfoRowCard question="Como dormiste hoy?" value={ sleepQuality } />
+      <InfoRowCard question="Nota:" value={ showNote } />
+      <InfoRowCard question="Creado:" value={ date } />
     </View>
   );
 };
