@@ -31,7 +31,7 @@ export const useUserMood = create<UserMoodState>( ( set, get ) => ( {
     const today = getCurrentDate();
     const found = get().moods.some(mood => mood.date === today);  
     if (found) {
-      Alert.alert(
+      Alert.alert(//nativo
         "Ya registraste tu estado de animo hoy",
         "Podes editarlo si queres cambiarlo.",
         [{ text: "OK" }]
@@ -58,8 +58,8 @@ export const useUserMood = create<UserMoodState>( ( set, get ) => ( {
 
   removeMood: async ( id ) => {
     set( ( state ) => {
-      const updatedMoods = state.moods.filter( ( entry ) => entry.id !== id );
-      return { moods: updatedMoods };
+      const removeMoods = state.moods.filter( ( entry ) => entry.id !== id );
+      return { moods: removeMoods };
     } );
     const newMoods = get().moods;
     await saveMoodsToStorage( newMoods );
