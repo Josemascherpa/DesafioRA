@@ -1,5 +1,5 @@
 
-import { Pressable, Text, View, StyleSheet } from 'react-native';
+import { Pressable, View, StyleSheet } from 'react-native';
 import { useUserMood } from '../hooks/useUserMood';
 import { InfoRowCard } from './InfoRowCard';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -7,8 +7,8 @@ import Feather from '@expo/vector-icons/Feather';
 
 interface cardMoodProps {
   id: number;
-  mood: number;
-  sleepQuality: number;
+  mood: string;
+  sleepQuality: string;
   note: string;
   date: string;
 }
@@ -50,6 +50,5 @@ const style = StyleSheet.create( {
     borderWidth: 2,    
     alignItems: "center",
     justifyContent: "center",
-
   },
 } );
