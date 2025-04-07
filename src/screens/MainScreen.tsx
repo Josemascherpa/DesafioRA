@@ -10,7 +10,7 @@ import { LoadingMoods } from '../components/LoadingMoods';
 
 export const MainScreen = () => {
 
-  const { moods, toggleModal, loadMoods, isLoadingMoods,hasMoodToday} = useUserMood();
+  const { moods, toggleModal, loadMoods, isLoadingMoods, hasMoodToday } = useUserMood();
 
   useEffect( () => {
     const fetchMoods = async () => {
@@ -28,7 +28,7 @@ export const MainScreen = () => {
       </View>
       <View style={ style.containerFlatlist }>
         { isLoadingMoods ? (
-          <LoadingMoods/>
+          <LoadingMoods />
         ) : (
           <FlatList
             keyExtractor={ ( item ) => item.id.toString() }
@@ -47,8 +47,11 @@ export const MainScreen = () => {
         ) }
       </View>
       <View style={ style.containerButton }>
-        <Pressable disabled={isLoadingMoods || hasMoodToday()} onPress={ () => toggleModal() } style={ style.button }>
-          <Text> Agregar Nuevo Mood</Text>
+        <Pressable disabled={ isLoadingMoods } onPress={ () => {
+          if ( hasMoodToday() ) { return; }
+          toggleModal();
+        } } style={ style.button }>
+          <Text style={ { fontWeight: "bold" } }> Agregar Nuevo Mood</Text>
         </Pressable>
       </View>
     </View>
@@ -64,27 +67,22 @@ const style = StyleSheet.create( {
     paddingTop: StatusBar.currentHeight,
   },
   containerTitle: {
-    backgroundColor: "red",
     width: "100%",
-    flex: 0.2,
+    flex: 0.15,
     alignItems: "center",
     justifyContent: "center"
   },
   containerFlatlist: {
-    flex: 0.7,
+    flex: 0.75,
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: "green",
     width: "100%",
     height: "100%",
     paddingTop: 10,
     paddingBottom: 10,
   },
   flatlist: {
-    borderWidth: 1,
     borderRadius: 10,
-    borderColor: "red",
-    backgroundColor: "green",
     width: "90%",
     height: "80%",
     alignContent: "center",
@@ -98,9 +96,9 @@ const style = StyleSheet.create( {
   button: {
     width: "70%",
     height: "50%",
-    borderWidth: 1,
+    borderWidth: 1.7,
     borderRadius: 10,
-    borderColor: "red",
+    borderColor: "black",
     alignItems: "center",
     justifyContent: "center"
   },
