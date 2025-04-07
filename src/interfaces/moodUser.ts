@@ -1,7 +1,7 @@
 export interface MoodUser{
   id: number,
-  mood:number,
-  sleepQuality:number,
+  mood:string,
+  sleepQuality:string,
   note:string,
   date:string,
 }
