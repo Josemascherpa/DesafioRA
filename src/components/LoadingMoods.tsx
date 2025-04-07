@@ -1,11 +1,22 @@
 
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator, StyleSheet } from 'react-native';
 
 export const LoadingMoods = () => {
   return (
-    <View style={{flex:1,justifyContent:"center"}}>
-      <ActivityIndicator size='large'/>
-      <Text style={{marginTop:10}}>Cargando Moods</Text>
+    <View style={ styles.view }>
+      <ActivityIndicator size='large' />
+      <Text style={ styles.text }>Cargando Moods</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create( {
+  view: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  text: {
+    marginTop: 10
+  }
+
+} );
