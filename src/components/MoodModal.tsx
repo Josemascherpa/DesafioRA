@@ -1,29 +1,45 @@
 import { Modal, Text, StyleSheet, TextInput, Pressable, } from 'react-native';
-import { useUserMood } from '../hooks/useMoodStore';
-import React, { useState } from 'react';
+import { useUserMood } from '../hooks/useUserMood';
+import React, { useEffect, useState } from 'react';
 import { Pickers } from './Pickers';
+import { getCurrentDate } from '../utils/getCurrentDate';
 
 
 export const MoodModal = () => {
-  const { isModalVisible, toggleModal, addMood, moods } = useUserMood();
+  const { isModalVisible, toggleModal, addMood, moods, moodToEdit, updateMood, setMoodToEdit } = useUserMood();
   const [ mood, setMood ] = useState<number>( 0 );
   const [ sleepQuality, setSleepQuality ] = useState<number>( 0 );
   const [ note, setNote ] = useState<string>( "" );
 
+  useEffect( () => {
+    if ( moodToEdit ) {      
+      setMood( moodToEdit.mood );
+      setSleepQuality( moodToEdit.sleepQuality );
+      setNote( moodToEdit.note );
+    }
+    else if ( !isModalVisible ) {      
+      setMood( 0 );
+      setSleepQuality( 0 );
+      setNote( "" );
+    }
+  }, [ isModalVisible ] );
+
   const handleSubmit = () => {
-    const newId = moods.length > 0 ? moods[ moods.length - 1 ].id + 1 : 1;
-    const moodUser = {
-      id: newId,
-      mood,
-      sleepQuality,
-      note,
-      date: new Date().toISOString(),
-    };
-    addMood( moodUser );
+    if ( moodToEdit ) {
+      updateMood( moodToEdit.id, { mood, sleepQuality, note } );
+    } else {
+      const newId = moods.length > 0 ? moods[ moods.length - 1 ].id + 1 : 1;
+      const moodUser = {
+        id: newId,
+        mood,
+        sleepQuality,
+        note,
+        date: getCurrentDate(),
+      };
+      addMood( moodUser );
+    }
     toggleModal();
-    setMood( 0 );
-    setSleepQuality( 0 );
-    setNote( "" );
+    setMoodToEdit( null );
   };
 
   return (
@@ -31,12 +47,12 @@ export const MoodModal = () => {
       animationType="fade"
       transparent={ true }
       visible={ isModalVisible }
-      onRequestClose={ toggleModal }
+      onRequestClose={ () => { toggleModal(); setMoodToEdit( null ); } }
     >
-      <Pressable style={ style.modalBackground } onPress={ toggleModal }>
+      <Pressable style={ style.modalBackground } onPress={ ()=>{toggleModal();setMoodToEdit( null ); } }>
         <Pressable style={ style.containerInputs }>
-          <Pickers titlePicker="¿Cómo te sentís hoy?" onValueChange={ setMood } />
-          <Pickers titlePicker="¿Cómo dormiste anoche?" onValueChange={ setSleepQuality } />
+          <Pickers titlePicker="¿Cómo te sentís hoy?" onValueChange={ setMood } value={ mood }/>
+          <Pickers titlePicker="¿Cómo dormiste anoche?" onValueChange={ setSleepQuality } value={ sleepQuality } />
           <Text style={ style.textAddNote }>¿Querés agregar una nota?</Text>
           <TextInput
             textAlignVertical="top"
@@ -45,6 +61,7 @@ export const MoodModal = () => {
             onChangeText={ setNote }
             style={ style.textInput }
             maxLength={ 100 }
+            placeholder="agrega una nota"
           />
           <Pressable
             style={ [
