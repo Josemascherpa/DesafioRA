@@ -2,6 +2,8 @@
 import { Pressable, Text, View, StyleSheet } from 'react-native';
 import { useUserMood } from '../hooks/useUserMood';
 import { InfoRowCard } from './InfoRowCard';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather';
 
 interface cardMoodProps {
   id: number;
